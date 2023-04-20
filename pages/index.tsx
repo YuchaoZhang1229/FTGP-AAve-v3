@@ -1,124 +1,298 @@
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
+import { DarkThemeToggle, Dropdown } from "flowbite-react";
+import { Navbar } from "flowbite-react";
+import { Footer } from "flowbite-react";
+import { Table } from "flowbite-react";
+import { Tabs } from "flowbite-react";
+import { Button } from "flowbite-react";
+import { TextInput } from "flowbite-react";
+import { Label } from "flowbite-react";
+import { useState, useRef } from "react";
+import  contractabi  from 'constants/IERC20.json';
 
-const inter = Inter({ subsets: ['latin'] })
+console.log(contractabi);
 
 export default function Home() {
+
+  
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">pages/index.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <div className='mx-auto h-auto flex flex-col'>
+      {/* Navbar */}
+      <nav className="className='border-b border-gray-200 py-3 relative z-20 bg-background shadow-[0_0_15px_0_rgb(0,0,0,0.1)]">
+        <div className="className='flex items-center lg:px-6 mx-auto max-w-7xl px-14">
+          <Navbar fluid={true} rounded={true}>
+            <Navbar.Brand href="https://flowbite.com/">
+              <img
+                src="https://flowbite.com/docs/images/logo.svg"
+                className="mr-3 h-6 sm:h-9"
+                alt="Flowbite Logo"
+              />
+              <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
+                Flowbite
+              </span>
+            </Navbar.Brand>
+            <div className="flex md:order-2">
+              <Button>
+                Get started
+              </Button>
+              <Navbar.Toggle />
+            </div>
+            <Navbar.Collapse>
+              <Navbar.Link
+                href="/navbars"
+                active={true}
+              >
+                Home
+              </Navbar.Link>
+              <Navbar.Link href="/navbars">
+                About
+              </Navbar.Link>
+              <Navbar.Link href="/navbars">
+                Services
+              </Navbar.Link>
+              <Navbar.Link href="/navbars">
+                Pricing
+              </Navbar.Link>
+              <Navbar.Link href="/navbars">
+                Contact
+              </Navbar.Link>
+            </Navbar.Collapse>
+          </Navbar>
         </div>
+
+      </nav>
+      {/* Narvbar */}
+
+      <div className='bg-accents-0 bg-gray-200 h-auto'>
+        <main className='w-full max-w-3xl mx-auto py-16 px-12 rounded-lg shadow-lg bg-gray-100 h-auto'>
+          {/* AAve */}
+          <section className='flex flex-col gap-6'>
+            <h1 className='text-5xl font-bold tracking-tight'>Aave</h1>
+            <p className='text-base font-normal'>This example shows how to connect a Metamask wallet with a Next.js app and how to deposit asset to Aave using Aave-V3-core.</p>
+          </section>
+          <Button gradientMonochrome="info" className="mt-6">Connect to MetaMask</Button>
+          {/* AAve */}
+
+          <div className='border-t border-accents-2 mt-10'> </div>
+
+          {/* Wallet Balace */}
+          <section className="mt-10 flex flex-col gap-5">
+            <h1 className=" text-2xl font-bold">Wallet Balance</h1>
+            <div className="flex flex-row gap-2">
+              <span className="text-base font-bold">MetaMask Address: </span>
+              <span className="text-base font-normal" id="MetamaskAddress">0x16</span>
+            </div>
+            <div className="px-5">
+              <Table>
+                <Table.Head>
+                  <Table.HeadCell>
+                    Asset Name
+                  </Table.HeadCell>
+
+                  <Table.HeadCell>
+                    Balance
+                  </Table.HeadCell>
+                </Table.Head>
+
+                <Table.Body className="divide-y">
+                  <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                    <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                      USDC
+                    </Table.Cell>
+                    <Table.Cell id="USDCWalletBalance">
+                      0
+                    </Table.Cell>
+                  </Table.Row>
+
+
+                  <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                    <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                      ETH
+                    </Table.Cell>
+                    <Table.Cell id="DAIWalletBalance">
+                      0
+                    </Table.Cell>
+                  </Table.Row>
+                </Table.Body>
+              </Table>
+            </div>
+          </section>
+          {/* Wallet Balance */}
+
+          {/* Contract 1 */}
+          <div className="mt-10 flex flex-col gap-5">
+            <h1 className=" text-2xl font-bold ">Deposit Asset to Aave</h1>
+            <div className="flex flex-row gap-2">
+              <span className="text-base font-bold">Contract Address: </span>
+              <span className="text-base font-normal" id="DepositAddress">0x16</span>
+            </div>
+
+            <div className="bg-white mx-5 rounded-lg shadow-lg">
+              <Tabs.Group className="item-center justify-center" aria-label="Tabs with underline" style="underline">
+                {/* Link */}
+                <Tabs.Item className="font-bold" active title="Link">
+                  <div className="flex flex-col gap-5">
+                    <div className="flex flex-row">
+                      <div className="mx-auto">
+                        <div className="basis-2/3 text-base font-bold">Link Balance:</div>
+                      </div>
+                      <div className="mx-auto">
+                        <div className="basis-1/3 text-base font-normal" id="LinkBalace">0</div>
+                      </div>
+
+                    </div>
+
+                    <div className="flex flex-row">
+                      <div className="mx-auto">
+                        <div className="basis-2/3 text-base font-bold">ALink Balance:</div>
+                      </div>
+                      <div className="mx-auto">
+                        <div className="basis-1/3 text-base font-normal" id="ALinkBalace">0</div>
+                      </div>
+
+                    </div>
+
+                    <div className="text-base font-bold mt-5">
+                      Please type the number of Link you want supply
+                    </div>
+                    <div className="flex flex-row gap-5">
+
+                      <div className="basis-2/3">
+                        <TextInput
+                          id="supplyAmount"
+                          type="text"
+                          sizing="md"
+                        />
+                      </div>
+                      <Button id="Supply" gradientMonochrome="info" className="basis-1/3"> Supply</Button>
+                    </div>
+
+                    <div className="text-base font-bold">
+                      Please type the number of Link you want withdraw
+                    </div>
+                    <div className="flex flex-row gap-5">
+                      <div className="basis-2/3">
+                        <TextInput
+                          id="withdrawAmount"
+                          type="text"
+                          sizing="md"
+                        />
+                      </div>
+                      <Button id="Supply" gradientMonochrome="info" className="basis-1/3"> Withdraw</Button>
+                    </div>
+                  </div>
+
+
+                </Tabs.Item>
+
+                {/* USDC */}
+                <Tabs.Item title="USDC">
+                  <div className="flex flex-col gap-5">
+                    <div className="flex flex-row">
+                      <div className="mx-auto">
+                        <div className="basis-2/3 text-base font-bold">USDC Balance:</div>
+                      </div>
+                      <div className="mx-auto">
+                        <div className="basis-1/3 text-base font-normal" id="LinkBalace">0</div>
+                      </div>
+
+                    </div>
+
+                    <div className="flex flex-row">
+                      <div className="mx-auto">
+                        <div className="basis-2/3 text-base font-bold">aUSDC Balance:</div>
+                      </div>
+                      <div className="mx-auto">
+                        <div className="basis-1/3 text-base font-normal" id="ALinkBalace">0</div>
+                      </div>
+
+                    </div>
+
+                    <div className="text-base font-bold mt-5">
+                      Please type the number of USDC you want supply
+                    </div>
+
+
+
+                    <div className="flex flex-row gap-5">
+
+                      <div className="basis-2/3">
+                        <TextInput
+                          id="supplyAmountUSDC"
+                          type="text"
+                          sizing="md"
+                        />
+                      </div>
+                      <Button id="SupplyUSDC" gradientMonochrome="info" className="basis-1/3">Supply</Button>
+                    </div>
+
+
+                    <div className="text-base font-bold">
+                      Please type the number of USDC you want withdraw
+                    </div>
+                    {/* Withdraw */}
+                    <div className="flex flex-row gap-5">
+
+                      <div className="basis-2/3">
+                        <TextInput
+                          id="withdrawAmountUSDC"
+                          type="text"
+                          sizing="md"
+                        />
+                      </div>
+                      <Button id="SupplyUSDC" gradientMonochrome="info" className="basis-1/3"> Withdraw</Button>
+
+                    </div>
+
+                  </div>
+
+
+                </Tabs.Item>
+              </Tabs.Group>
+            </div>
+
+          </div>
+          {/* Contract 1 */}
+
+          {/* Contract 2 */}
+          <div className="mt-10 flex flex-col gap-5">
+            <h1 className=" text-2xl font-bold ">Flash Loan</h1>
+            <div className="flex flex-row gap-2">
+              <span className="text-base font-bold">Contract Address: </span>
+              <span className="text-base font-normal" id="DepositAddress">0x16</span>
+            </div>
+
+
+          </div>
+          {/* Contract 2 */}
+
+
+        </main>
+
       </div>
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700/10 after:dark:from-sky-900 after:dark:via-[#0141ff]/40 before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
+
+      <div className="w-full mt-auto border-t border-gray-200 shadow-lg">
+        <Footer container={true} >
+          <Footer.Copyright
+            href="#"
+            by="Group 6"
+            year={2023}
+          />
+          <Footer.LinkGroup>
+            <Footer.Link href="#">
+              Github
+            </Footer.Link>
+
+
+          </Footer.LinkGroup>
+        </Footer>
       </div>
 
-      <div className="mb-32 grid text-center lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`${inter.className} mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p
-            className={`${inter.className} m-0 max-w-[30ch] text-sm opacity-50`}
-          >
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`${inter.className} mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p
-            className={`${inter.className} m-0 max-w-[30ch] text-sm opacity-50`}
-          >
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
 
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`${inter.className} mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p
-            className={`${inter.className} m-0 max-w-[30ch] text-sm opacity-50`}
-          >
-            Discover and deploy boilerplate example Next.js&nbsp;projects.
-          </p>
-        </a>
 
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`${inter.className} mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p
-            className={`${inter.className} m-0 max-w-[30ch] text-sm opacity-50`}
-          >
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+
+    </div>
   )
 }
