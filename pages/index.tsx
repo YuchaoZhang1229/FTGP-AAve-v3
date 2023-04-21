@@ -191,7 +191,7 @@ export default function Home() {
   if (isConnected) {
     if (typeof window !== "undefined") {
       getLinkBalance()
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const provider = new ethers.providers.Web3Provider((window as any).ethereum);
       const signer = provider.getSigner(); // 获得签名者
       const contract = new ethers.Contract(contractAddress, abi, signer);
       const LinkWalletBalance = contract.LINKWallet();
@@ -202,7 +202,7 @@ export default function Home() {
 
   async function getLinkBalance() {
     if (isConnected) {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const provider = new ethers.providers.Web3Provider((window as any).ethereum);
       const signer = provider.getSigner(); // 获得签名者
       const contract = new ethers.Contract(contractAddress, abi, signer);
       try {
@@ -233,11 +233,13 @@ export default function Home() {
 
   async function supplyLink() { // 400行
     if (isConnected) {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const provider = new ethers.providers.Web3Provider((window as any).ethereum);
       const signer = provider.getSigner(); // 获得签名者
       const contract = new ethers.Contract(contractAddress, abi, signer);
       try {
-        const linknumbersupply = document.getElementById('supplyLinkAmount').value
+        const amountInput = document.getElementById('supplyLinkAmount') as HTMLInputElement;
+        const linknumbersupply = amountInput.value;
+        
         console.log(linknumbersupply);
         await contract.supplyLiquidityLINK(linknumbersupply);
         getLinkBalance()
@@ -252,11 +254,12 @@ export default function Home() {
 
   async function withdrawLink() {
     if (isConnected) {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const provider = new ethers.providers.Web3Provider((window as any).ethereum);
       const signer = provider.getSigner(); // 获得签名者
       const contract = new ethers.Contract(contractAddress, abi, signer);
       try {
-        const withdrawLinkAmount = document.getElementById('withdrawLinkAmount').value
+        const amountInput = document.getElementById('withdrawLinkAmount') as HTMLInputElement;
+        const withdrawLinkAmount = amountInput.value;
         console.log(withdrawLinkAmount);
         await contract.withdrawlLiquidity(withdrawLinkAmount);
         getLinkBalance()
@@ -271,11 +274,13 @@ export default function Home() {
 
   async function withdrawLinktoWallet() {
     if (isConnected) {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const provider = new ethers.providers.Web3Provider((window as any).ethereum);
       const signer = provider.getSigner(); // 获得签名者
       const contract = new ethers.Contract(contractAddress, abi, signer);
       try {
-        const withdrawLinktoWalletAmount = document.getElementById('withdrawLinktoWalletAmount').value
+        const amountInput = document.getElementById('withdrawLinktoWalletAmount') as HTMLInputElement;
+        const withdrawLinktoWalletAmount = amountInput.value;
+   
         console.log(withdrawLinktoWalletAmount);
         await contract.withdrawToWallet(withdrawLinktoWalletAmount);
         getLinkBalance()
@@ -360,8 +365,8 @@ export default function Home() {
             <div className="flex flex-row gap-2">
               <div className="text-base font-bold">MetaMask Address: </div>
               <div className="text-base font-normal" id="walletAddress">
-                {/* {address} */}
-                0x81d332242d04b25805b670674241C315252D708E
+                {address}
+                {/* 0x81d332242d04b25805b670674241C315252D708E */}
                 </div>
             </div>
             <div className="px-5">
