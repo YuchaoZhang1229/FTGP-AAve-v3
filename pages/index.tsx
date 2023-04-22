@@ -171,8 +171,9 @@ const abi = [
 
 
 import FixedButton from '../components/FixedButton';
+import ApproveLinkButton from '../components/ApproveLinkButton';
 import FlashLoan from '../components/FlashLoan';
-
+import BalanceTable from '../components/BalanceTable';
 export default function Home() {
   // address-账户地址 isConnected-是否连接
   const { address, isConnected } = useAccount()
@@ -239,10 +240,10 @@ export default function Home() {
       try {
         const amountInput = document.getElementById('supplyLinkAmount') as HTMLInputElement;
         const linknumbersupply = amountInput.value;
-        
+
         console.log(linknumbersupply);
         await contract.supplyLiquidityLINK(linknumbersupply);
-        getLinkBalance()
+
 
       } catch (e) {
         console.log(e);
@@ -280,7 +281,7 @@ export default function Home() {
       try {
         const amountInput = document.getElementById('withdrawLinktoWalletAmount') as HTMLInputElement;
         const withdrawLinktoWalletAmount = amountInput.value;
-   
+
         console.log(withdrawLinktoWalletAmount);
         await contract.withdrawToWallet(withdrawLinktoWalletAmount);
         getLinkBalance()
@@ -354,72 +355,43 @@ export default function Home() {
 
           <Button onClick={() => connect()} gradientMonochrome="info" className="mt-6">Connect MetaMask</Button>
 
-
           {/* AAve */}
 
-          <div className='border-t border-accents-2 mt-10'> </div>
+          <div className='border-t border-accents-2 mt-6'> </div>
 
-          {/* Wallet Balace */}
-          <section className="mt-10 flex flex-col gap-5">
-            <h1 className=" text-2xl font-bold">Wallet Balance</h1>
+          {/* Balance */}
+          <section className="mt-6 flex flex-col gap-5">
+            <h1 className=" text-2xl font-bold">Account Profile</h1>
             <div className="flex flex-row gap-2">
               <div className="text-base font-bold">MetaMask Address: </div>
               <div className="text-base font-normal" id="walletAddress">
                 {address}
                 {/* 0x81d332242d04b25805b670674241C315252D708E */}
-                </div>
+              </div>
             </div>
-            <div className="px-5">
-              <Table>
-                <Table.Head>
-                  <Table.HeadCell>
-                    Asset Name
-                  </Table.HeadCell>
-
-                  <Table.HeadCell>
-                    Balance
-                  </Table.HeadCell>
-                </Table.Head>
-
-                <Table.Body className="divide-y">
-                  <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                    <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                      Link
-                    </Table.Cell>
-                    <Table.Cell id="linkWalletBalance">
-                      0
-                    </Table.Cell>
-                  </Table.Row>
-
-
-                  <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                    <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                      DAI
-                    </Table.Cell>
-                    <Table.Cell id="DAIWalletBalance">
-                      0
-                    </Table.Cell>
-                  </Table.Row>
-                </Table.Body>
-              </Table>
+            <div className="text-xl font-bold mx-auto mt-2">Asset Balance </div>
+            <div className="mx-auto">
+              <BalanceTable />
             </div>
-
-
-
-
-
           </section>
-          {/* Wallet Balance */}
+          {/* Balance */}
 
-          {/* Contract 1 */}
+          {/* Depositor */}
           <div className="mt-10 flex flex-col gap-5">
             <h1 className=" text-2xl font-bold ">Deposit Asset to Aave</h1>
-            <div className="flex flex-row gap-2">
-              <span className="text-base font-bold">Contract Address: </span>
-              <span className="text-base font-normal overflow-auto" id="DepositAddress">0x244274e5411faE385fF3655DC61D948b13FfC807</span>
+            <div className="text-base font-normal">
+               <b>Apporve:</b> approve the amount of token 
+            </div>
+            <div className="text-base font-normal">
+               <b>Supply:</b>  supply the token to aave, then aave will give us the atoken back
+            </div>
+            <div className="text-base font-normal">
+               <b>Withdraw:</b> withdraw the token to our metamask
             </div>
 
-            <div className="bg-white mx-5 rounded-lg shadow-lg">
+
+
+            <div className="bg-white mx-auto rounded-lg shadow-lg">
               <Tabs.Group className="item-center justify-center" aria-label="Tabs with underline" style="underline">
                 {/* Link */}
                 <Tabs.Item className="font-bold" active title="Link">
@@ -437,7 +409,7 @@ export default function Home() {
                     </div>
 
                     <div className="text-base font-bold mt-5">
-                      Please type the number of Link you want supply 
+                      Please type the number of Link you want supply
                     </div>
                     <div className="flex flex-row gap-5">
                       <TextInput
@@ -553,23 +525,14 @@ export default function Home() {
             </div>
 
           </div>
-          {/* Contract 1 */}
+          {/* Depositor */}
 
           {/* Contract 2-Flash Loan*/}
-          <div className="mt-10 flex flex-col gap-5">
-            <h1 className=" text-2xl font-bold ">Flash Loan</h1>
-            <div className="flex flex-row gap-2">
-              <span className="text-base font-bold">Contract Address: </span>
-              <span className="text-base font-normal" id="DepositAddress">0x16</span>
-            </div>
-
-
-          </div>
-
-          <FlashLoan/>
+          <FlashLoan />
           {/* Contract 2 */}
 
 
+          <ApproveLinkButton />
         </main>
 
       </div>
@@ -594,7 +557,7 @@ export default function Home() {
       </div>
 
 
-      <FixedButton onClick={()=>getLinkBalance()} />
+      <FixedButton onClick={() => getLinkBalance()} />
 
 
     </div>
