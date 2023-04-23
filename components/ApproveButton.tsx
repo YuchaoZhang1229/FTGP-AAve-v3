@@ -307,9 +307,9 @@ interface Props {
 
 
 
-const ApproveButton: React.FC<Props> = ({ tokenAddress, tokenAmount}) =>{
-  const contractAddress = tokenAddress;
-  const abi = [
+const ApproveButton: React.FC<Props> = ({ tokenAddress, tokenAmount }) => {
+  const contractAddress = tokenAddress; // 不同token的地址
+  const abi =  [
     {
       "inputs": [
         {
@@ -596,9 +596,9 @@ const ApproveButton: React.FC<Props> = ({ tokenAddress, tokenAmount}) =>{
       "stateMutability": "nonpayable",
       "type": "function"
     }
-  ];
-  const { isConnected } = useAccount()
-  async function approveLink() {
+  ]
+  const { address, isConnected } = useAccount()
+  async function approvetoken() {
     if (isConnected) {
       const provider = new ethers.providers.Web3Provider((window as any).ethereum);
       const signer = provider.getSigner(); // 获得签名者
@@ -618,16 +618,18 @@ const ApproveButton: React.FC<Props> = ({ tokenAddress, tokenAmount}) =>{
 
         const decimals = await contract.decimals();
         console.log("Decimals:", decimals);
-
+        
         const spender = "0xE7EC1B0015eb2ADEedb1B7f9F1Ce82F9DAD6dF08";  // Pool Address
-        // const amountToApprove = ethers.utils.parseUnits(tokenAmount, decimals); // 1 Link
-        // const approveTx = await contract.approve(spender, amountToApprove)
-        // console.log("Approve Transaction:", approveTx);
-
-
-        const approveTx = await contract.approve(spender, tokenAmount)
+        const amountToApprove = ethers.utils.parseUnits(tokenAmount, decimals); // 1 Link
+        const approveTx = await contract.approve(spender, amountToApprove)
         console.log("Approve Transaction:", approveTx);
 
+
+        const allowance2 = await contract.allowance(address,spender)
+        console.log("allowance=",allowance2);
+
+
+        
         // const recipient = "0x244274e5411faE385fF3655DC61D948b13FfC807";
         // const amountToSend = ethers.utils.parseUnits("1", decimals);
         // await contract.transfer(recipient, amountToSend)
@@ -643,8 +645,9 @@ const ApproveButton: React.FC<Props> = ({ tokenAddress, tokenAmount}) =>{
 
   return (
     <Button
+      className='w-24'
       gradientMonochrome="info"
-      onClick={() => approveLink()}>
+      onClick={() => approvetoken()}>
       Approve
     </Button>
   );

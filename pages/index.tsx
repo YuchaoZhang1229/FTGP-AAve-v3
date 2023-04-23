@@ -1,174 +1,10 @@
 import { Navbar } from "flowbite-react";
 import { Footer } from "flowbite-react";
-import { Table } from "flowbite-react";
-import { Tabs } from "flowbite-react";
 import { Button } from "flowbite-react";
-import { TextInput } from "flowbite-react";
-
-// import  IERC20abi  from './../constants/IERC20.json';
-// // import  Supplyabi  from './../constants/Supply.json';
-// console.log(JSON.parse(IERC20abi));
 
 import { useAccount, useConnect, useDisconnect } from 'wagmi'
 import { InjectedConnector } from 'wagmi/connectors/injected'
-
 import { ethers } from "ethers";
-
-const contractAddress = "0x244274e5411faE385fF3655DC61D948b13FfC807"
-const abi = [
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "_addressProvider",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "constructor"
-  },
-  {
-    "inputs": [],
-    "name": "LINKWallet",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "POOL",
-    "outputs": [
-      {
-        "internalType": "contract IPool",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "allowanceLINKtoPool",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_amount",
-        "type": "uint256"
-      }
-    ],
-    "name": "approveLINKtoPool",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_amount",
-        "type": "uint256"
-      }
-    ],
-    "name": "depositLink",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "getBalanceALINK",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "getBalanceLINK",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_amount",
-        "type": "uint256"
-      }
-    ],
-    "name": "supplyLiquidityLINK",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "withdrawLINK",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_amount",
-        "type": "uint256"
-      }
-    ],
-    "name": "withdrawlLiquidity",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "stateMutability": "payable",
-    "type": "receive"
-  }
-]
-
 
 import FixedButton from '../components/FixedButton';
 import ApproveButton from '../components/ApproveButton';
@@ -182,122 +18,6 @@ export default function Home() {
   const { address, isConnected } = useAccount()
   const { connect } = useConnect({ connector: new InjectedConnector(), })
   const { disconnect } = useDisconnect()
-
-
-  // if (isConnected)
-  // return (
-  //   <div>
-  //     Connected to {address}
-  //     <button onClick={() => disconnect()}>Disconnect</button>
-  //     <button onClick={() => connect()}>Connect Wallet</button>
-  //   </div>
-  // )
-  if (isConnected) {
-    if (typeof window !== "undefined") {
-      getLinkBalance()
-      const provider = new ethers.providers.Web3Provider((window as any).ethereum);
-      const signer = provider.getSigner(); // 获得签名者
-      const contract = new ethers.Contract(contractAddress, abi, signer);
-      const LinkWalletBalance = contract.LINKWallet();
-      console.log(LinkWalletBalance);
-      console.log(document.getElementById('MetamaskAddress')?.innerHTML);
-    }
-  }
-
-  async function getLinkBalance() {
-    if (isConnected) {
-      const provider = new ethers.providers.Web3Provider((window as any).ethereum);
-      const signer = provider.getSigner(); // 获得签名者
-      const contract = new ethers.Contract(contractAddress, abi, signer);
-      try {
-        const Balance1 = await contract.getBalanceLINK();
-        const linkBlance = document.getElementById('linkBlance')
-        if (linkBlance) {
-          linkBlance.innerHTML = Balance1
-        }
-
-        const Balance2 = await contract.getBalanceALINK();
-        const alinkBlance = document.getElementById('alinkBlance')
-        if (alinkBlance) {
-          alinkBlance.innerHTML = Balance2
-        }
-
-        const Balance3 = await contract.LINKWallet();
-        const linkWalletBalance = document.getElementById('linkWalletBalance')
-        if (linkWalletBalance) {
-          linkWalletBalance.innerHTML = Balance3
-        }
-      } catch (e) {
-        console.log(e);
-      }
-    } else {
-      alert("Please Connect Metamask")
-    }
-  }
-
-  async function supplyLink() { // 400行
-    if (isConnected) {
-      const provider = new ethers.providers.Web3Provider((window as any).ethereum);
-      const signer = provider.getSigner(); // 获得签名者
-      const contract = new ethers.Contract(contractAddress, abi, signer);
-      try {
-        const amountInput = document.getElementById('supplyLinkAmount') as HTMLInputElement;
-        const linknumbersupply = amountInput.value;
-
-        console.log(linknumbersupply);
-        await contract.supplyLiquidityLINK(linknumbersupply);
-
-
-      } catch (e) {
-        console.log(e);
-      }
-    } else {
-      alert("Please Connect Metamask")
-    }
-  }
-
-  async function withdrawLink() {
-    if (isConnected) {
-      const provider = new ethers.providers.Web3Provider((window as any).ethereum);
-      const signer = provider.getSigner(); // 获得签名者
-      const contract = new ethers.Contract(contractAddress, abi, signer);
-      try {
-        const amountInput = document.getElementById('withdrawLinkAmount') as HTMLInputElement;
-        const withdrawLinkAmount = amountInput.value;
-        console.log(withdrawLinkAmount);
-        await contract.withdrawlLiquidity(withdrawLinkAmount);
-        getLinkBalance()
-
-      } catch (e) {
-        console.log(e);
-      }
-    } else {
-      alert("Please Connect Metamask")
-    }
-  }
-
-  async function withdrawLinktoWallet() {
-    if (isConnected) {
-      const provider = new ethers.providers.Web3Provider((window as any).ethereum);
-      const signer = provider.getSigner(); // 获得签名者
-      const contract = new ethers.Contract(contractAddress, abi, signer);
-      try {
-        const amountInput = document.getElementById('withdrawLinktoWalletAmount') as HTMLInputElement;
-        const withdrawLinktoWalletAmount = amountInput.value;
-
-        console.log(withdrawLinktoWalletAmount);
-        await contract.withdrawToWallet(withdrawLinktoWalletAmount);
-        getLinkBalance()
-
-      } catch (e) {
-        console.log(e);
-      }
-    } else {
-      alert("Please Connect Metamask")
-    }
-  }
-
-
 
   return (
 
@@ -317,9 +37,9 @@ export default function Home() {
               </span>
             </Navbar.Brand>
             <div className="flex md:order-2">
-              <Button>
+              {/* <Button>
                 Get started
-              </Button>
+              </Button> */}
               <Navbar.Toggle />
             </div>
             <Navbar.Collapse>
@@ -362,14 +82,13 @@ export default function Home() {
 
           <div className='border-t border-accents-2 mt-6'> </div>
 
-          {/* Balance */}
+          {/* Account Profile */}
           <section className="mt-6 flex flex-col gap-5">
             <h1 className=" text-2xl font-bold">Account Profile</h1>
             <div className="flex flex-row gap-2">
               <div className="text-base font-bold">MetaMask Address: </div>
-              <div className="text-base font-normal" id="walletAddress">
-                {address}
-                {/* 0x81d332242d04b25805b670674241C315252D708E */}
+              <div className="text-base font-normal" id="MetamaskAddress">
+                {isConnected ? address : "0x"} 
               </div>
             </div>
             <div className="text-xl font-bold mx-auto mt-2">Asset Balance </div>
@@ -392,8 +111,6 @@ export default function Home() {
                <b>Withdraw:</b> withdraw the token to our metamask
             </div>
 
-
-
             <div className="bg-white mx-auto rounded-lg shadow-lg">
               <Deposit/>
             </div>
@@ -405,8 +122,6 @@ export default function Home() {
           <FlashLoan />
           {/* Contract 2 */}
 
-
-          <ApproveButton tokenAddress="0x8a0E31de20651fe58A369fD6f76c21A8FF7f8d42" tokenAmount="10000" />
         </main>
 
       </div>

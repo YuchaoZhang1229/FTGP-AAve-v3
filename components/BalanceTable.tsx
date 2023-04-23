@@ -4,6 +4,15 @@ import { Button } from "flowbite-react";
 import { Table } from 'flowbite-react';
 import { useAccount } from 'wagmi';
 import { ethers } from 'ethers';
+
+import Balance from '../components/Balance';
+
+
+interface Props {
+    // props type definitions here
+  }
+
+
 const contractAddress = "0xaeA3A6C8Fac7E59680115504a682b49404c37CbB";
 const abi = [
     {
@@ -232,7 +241,7 @@ const abi = [
     }
 ]
 
-function BalanceTable() {
+const BalanceTable: React.FC<Props> = () => {
     const { isConnected } = useAccount()
     async function getAllBalance() {
         if (isConnected) {
@@ -249,60 +258,71 @@ function BalanceTable() {
                 console.log(contract);
                 const linkAddress = "0x8a0E31de20651fe58A369fD6f76c21A8FF7f8d42"
                 const link = await contract.getBalancetoken(linkAddress);
+
+                const linkNumber = ethers.utils.formatUnits(link, 18);
                 const linkBalance = document.getElementById('linkBalance')
                 if (linkBalance) {
-                    linkBalance.innerHTML = link
+                    linkBalance.innerHTML = linkNumber
                 }
 
                 const daiAddress = "0x68194a729C2450ad26072b3D33ADaCbcef39D574"
                 const dai = await contract.getBalancetoken(daiAddress);
+
+                const daiNumber = ethers.utils.formatUnits(dai, 18);
                 const daiBalance = document.getElementById('daiBalance')
                 if (daiBalance) {
-                    daiBalance.innerHTML = dai
+                    daiBalance.innerHTML = daiNumber
                 }
 
-                0xda9d4f9b69ac6C22e444eD9aF0CfC043b7a7f53f
+            
 
                 const usdcAddress = "0xda9d4f9b69ac6C22e444eD9aF0CfC043b7a7f53f"
                 const usdc = await contract.getBalancetoken(usdcAddress);
+
+                const usdcNumber = ethers.utils.formatUnits(usdc, 6);
                 const usdcBalance = document.getElementById('usdcBalance')
                 if (usdcBalance) {
-                    usdcBalance.innerHTML = usdc
+                    usdcBalance.innerHTML = usdcNumber
                 }
 
                 const wbtcAddress = "0xf864F011C5A97fD8Da79baEd78ba77b47112935a"
                 const wbtc = await contract.getBalancetoken(wbtcAddress);
+                const wbtcNumber = ethers.utils.formatUnits(wbtc, 8);
                 const wbtcBalance = document.getElementById('wbtcBalance')
                 if (wbtcBalance) {
-                    wbtcBalance.innerHTML = wbtc
+                    wbtcBalance.innerHTML = wbtcNumber
                 }
 
                 const wethAddress = "0xD0dF82dE051244f04BfF3A8bB1f62E1cD39eED92"
                 const weth = await contract.getBalancetoken(wethAddress);
+                const wethNumber = ethers.utils.formatUnits(weth, 18);
                 const wethBalance = document.getElementById('wethBalance')
                 if (wethBalance) {
-                    wethBalance.innerHTML = weth
+                    wethBalance.innerHTML = wethNumber
                 }
 
                 const usdtAddress = "0x0Bd5F04B456ab34a2aB3e9d556Fe5b3A41A0BC8D"
                 const usdt = await contract.getBalancetoken(usdtAddress);
+                const usdtNumber = ethers.utils.formatUnits(usdt, 6);
                 const usdtBalance = document.getElementById('usdtBalance')
                 if (usdtBalance) {
-                    usdtBalance.innerHTML = usdt
+                    usdtBalance.innerHTML = usdtNumber
                 }
 
                 const aaveAddress = "0x5bB220Afc6E2e008CB2302a83536A019ED245AA2"
                 const aave = await contract.getBalancetoken(aaveAddress);
+                const aaveNumber = ethers.utils.formatUnits(aave, 18);
                 const aaveBalance = document.getElementById('aaveBalance')
                 if (aaveBalance) {
-                    aaveBalance.innerHTML = aave
+                    aaveBalance.innerHTML = aaveNumber
                 }
 
                 const erusAddress = "0xe20cf465a163c395e7Dde1466Cdd1aBe695B4658"
                 const erus = await contract.getBalancetoken(erusAddress);
+                const erusNumber = ethers.utils.formatUnits(erus, 2);
                 const erusBalance = document.getElementById('erusBalance')
                 if (erusBalance) {
-                    erusBalance.innerHTML = erus
+                    erusBalance.innerHTML = erusNumber
                 }
 
 
@@ -318,10 +338,10 @@ function BalanceTable() {
 
 
 
-
+    // setInterval(getAllBalance, 5000);
     return (
         <div className='flex flex-col gap-3'>
-            <Table>
+            <Table >
                 <Table.Head>
                     <Table.HeadCell>
                         Asset Name
@@ -372,27 +392,9 @@ function BalanceTable() {
 
                     <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
                         <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                            WETH
-                        </Table.Cell>
-                        <Table.Cell id="wethBalance">
-                            0
-                        </Table.Cell>
-                    </Table.Row>
-
-                    <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                        <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                             USDT
                         </Table.Cell>
                         <Table.Cell id="usdtBalance">
-                            0
-                        </Table.Cell>
-                    </Table.Row>
-
-                    <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                        <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                            AAVE
-                        </Table.Cell>
-                        <Table.Cell id="aaveBalance">
                             0
                         </Table.Cell>
                     </Table.Row>
@@ -410,6 +412,8 @@ function BalanceTable() {
             </Table>
 
             <Button className='mx-auto' gradientMonochrome="info" onClick={() => getAllBalance()}>Refresh Balance</Button>
+
+            
         </div>
 
     );
