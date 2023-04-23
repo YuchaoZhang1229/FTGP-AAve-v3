@@ -329,7 +329,10 @@ const Balance: React.FC<Props> = ({ tokenAddress, decimals }) => {
 
 
     return (
-        <div id="root" className="text-base font-normal overflow-auto">{isConnected ? formattedBalance : 0}</div>
+        // <div id="root" className="text-base font-normal overflow-auto">{isConnected ? formattedBalance : 0}</div>
+        <>
+        {isConnected ? formattedBalance : 0}
+        </>
     );
 }
 

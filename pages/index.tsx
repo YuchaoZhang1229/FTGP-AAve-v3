@@ -146,7 +146,7 @@ export default function Home() {
       </div>
 
 
-      <FixedButton onClick={() => getLinkBalance()} />
+
 
 
     </div>
