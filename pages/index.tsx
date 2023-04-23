@@ -171,9 +171,12 @@ const abi = [
 
 
 import FixedButton from '../components/FixedButton';
-import ApproveLinkButton from '../components/ApproveLinkButton';
+import ApproveButton from '../components/ApproveButton';
 import FlashLoan from '../components/FlashLoan';
 import BalanceTable from '../components/BalanceTable';
+import Deposit from '../components/Deposit';
+
+
 export default function Home() {
   // address-账户地址 isConnected-是否连接
   const { address, isConnected } = useAccount()
@@ -392,136 +395,7 @@ export default function Home() {
 
 
             <div className="bg-white mx-auto rounded-lg shadow-lg">
-              <Tabs.Group className="item-center justify-center" aria-label="Tabs with underline" style="underline">
-                {/* Link */}
-                <Tabs.Item className="font-bold" active title="Link">
-                  <div className="flex flex-col gap-5">
-                    <div className="flex flex-col gap-5">
-                      <div className="basis-2/3 text-base font-bold">Link Balance:</div>
-                      <div className="basis-1/3 text-base font-normal overflow-auto" id="linkBlance">0</div>
-                    </div>
-
-
-
-                    <div className="flex flex-col gap-5">
-                      <div className="basis-2/3 text-base font-bold">ALink Balance:</div>
-                      <div className="basis-1/3 text-base font-normal overflow-auto" id="alinkBlance">0</div>
-                    </div>
-
-                    <div className="text-base font-bold mt-5">
-                      Please type the number of Link you want supply
-                    </div>
-                    <div className="flex flex-row gap-5">
-                      <TextInput
-                        id="supplyLinkAmount"
-                        type="text"
-                        sizing="md"
-                        className="basis-2/3"
-                      />
-
-                      <Button onClick={() => supplyLink()} gradientMonochrome="info" className="basis-1/3"> Supply</Button>
-                    </div>
-
-                    <div className="text-base font-bold">
-                      Please type the number of Link you want withdraw
-                    </div>
-                    <div className="flex flex-row gap-5">
-
-                      <TextInput
-                        id="withdrawLinkAmount"
-                        type="text"
-                        sizing="md"
-                        className="basis-2/3"
-                      />
-
-                      <Button onClick={() => withdrawLink()} gradientMonochrome="info" className="basis-1/3"> Withdraw</Button>
-                    </div>
-
-
-
-                    <div className="text-base font-bold">
-                      Please type the number of Link you want withdraw to your wallet
-                    </div>
-                    <div className="flex flex-row gap-5">
-
-                      <TextInput
-                        id="withdrawToWallet"
-                        type="text"
-                        sizing="md"
-
-                        className="basis-2/3"
-                      />
-                      <Button onClick={() => withdrawLinktoWallet()} gradientMonochrome="info" className="basis-1/3" >Withdraw to MetaMask</Button>
-                    </div>
-                  </div>
-
-
-                </Tabs.Item>
-
-                {/* USDC */}
-                <Tabs.Item title="USDC">
-                  <div className="flex flex-col gap-5">
-                    <div className="flex flex-row">
-                      <div className="mx-auto">
-                        <div className="basis-2/3 text-base font-bold">USDC Balance:</div>
-                      </div>
-                      <div className="mx-auto">
-                        <div className="basis-1/3 text-base font-normal" id="LinkBalace">0</div>
-                      </div>
-
-                    </div>
-
-                    <div className="flex flex-row">
-                      <div className="mx-auto">
-                        <div className="basis-2/3 text-base font-bold">aUSDC Balance:</div>
-                      </div>
-                      <div className="mx-auto">
-                        <div className="basis-1/3 text-base font-normal" id="ALinkBalace">0</div>
-                      </div>
-
-                    </div>
-
-                    <div className="text-base font-bold mt-5">
-                      Please type the number of USDC you want supply
-                    </div>
-
-
-
-                    <div className="flex flex-row gap-5">
-
-                      <div className="basis-2/3">
-                        <TextInput
-                          id="supplyAmountUSDC"
-                          type="text"
-                          sizing="md"
-                        />
-                      </div>
-                      <Button id="SupplyUSDC" gradientMonochrome="info" className="basis-1/3">Supply</Button>
-                    </div>
-
-
-                    <div className="text-base font-bold">
-                      Please type the number of USDC you want withdraw
-                    </div>
-                    {/* Withdraw */}
-                    <div className="flex flex-row gap-5">
-
-                      <div className="basis-2/3">
-                        <TextInput
-                          id="withdrawAmountUSDC"
-                          type="text"
-                          sizing="md"
-                        />
-                      </div>
-                      <Button id="SupplyUSDC" gradientMonochrome="info" className="basis-1/3"> Withdraw</Button>
-
-                    </div>
-
-                  </div>
-
-
-                </Tabs.Item>
-              </Tabs.Group>
+              <Deposit/>
             </div>
 
           </div>
@@ -532,7 +406,7 @@ export default function Home() {
           {/* Contract 2 */}
 
 
-          <ApproveLinkButton />
+          <ApproveButton />
         </main>
 
       </div>
