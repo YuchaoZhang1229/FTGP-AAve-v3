@@ -406,7 +406,7 @@ export default function Home() {
           {/* Contract 2 */}
 
 
-          <ApproveButton tokenAddress="0x8a0E31de20651fe58A369fD6f76c21A8FF7f8d42" tokenAmount={value} />
+          <ApproveButton tokenAddress="0x8a0E31de20651fe58A369fD6f76c21A8FF7f8d42" tokenAmount="10000" />
         </main>
 
       </div>
