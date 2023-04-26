@@ -12,6 +12,11 @@ import FlashLoan from '../components/FlashLoan';
 import BalanceTable from '../components/BalanceTable';
 import Deposit from '../components/Deposit';
 
+import ApproveTest from '../components/ApproveTest';
+import Quoter from '../components/Quoter';
+
+
+
 
 export default function Home() {
   // address-账户地址 isConnected-是否连接
@@ -37,12 +42,12 @@ export default function Home() {
               </span>
             </Navbar.Brand>
             <div className="flex md:order-2">
-              {/* <Button>
+              <Button className="hidden">
                 Get started
-              </Button> */}
+              </Button>
               <Navbar.Toggle />
             </div>
-            <Navbar.Collapse>
+            <Navbar.Collapse className="mr-32">
               <Navbar.Link
                 href="/navbars"
                 active={true}
@@ -118,10 +123,12 @@ export default function Home() {
           </div>
           {/* Depositor */}
 
+
           {/* Contract 2-Flash Loan*/}
           <FlashLoan />
           {/* Contract 2 */}
-
+          <ApproveTest tokenAddress="0x68194a729C2450ad26072b3D33ADaCbcef39D574" tokenAmount={"1"} />
+          <Quoter/>
         </main>
 
       </div>
@@ -144,11 +151,6 @@ export default function Home() {
           </Footer.LinkGroup>
         </Footer>
       </div>
-
-
-
-
-
     </div>
   )
 }
