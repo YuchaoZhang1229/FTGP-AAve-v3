@@ -325,7 +325,8 @@ const Balance: React.FC<Props> = ({ tokenAddress, decimals }) => {
     useEffect(() => {
         // 在组件挂载时调用一次
         getBalance();
-
+        const interval = setInterval(getBalance, 1000);
+        return () => clearInterval(interval);
       }, [setBalance]);
 
 
