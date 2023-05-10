@@ -29,6 +29,8 @@ export default function Home() {
   useEffect(() => {
     // 在组件挂载时调用一次
     getEthBalance();
+    // const interval = setInterval(getEthBalance, 1000);
+    // return () => clearInterval(interval);
   }, [setEthValue]);
   
   // 获得以太坊余额

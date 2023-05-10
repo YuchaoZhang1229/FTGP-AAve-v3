@@ -1873,8 +1873,6 @@ const FlashLoan: React.FC<Props> = () => {
   useEffect(() => {
     // 在组件挂载时调用一次
     getTokenBalance();
-    const interval = setInterval(getTokenBalance, 1000);
-    return () => clearInterval(interval);
   }, [selectedValue]);
 
   function handleSelectChange(event: React.ChangeEvent<HTMLSelectElement>) {
@@ -1954,9 +1952,10 @@ const FlashLoan: React.FC<Props> = () => {
       } catch (e) {
         console.log(e);
       }
-    } else {
-      alert("Please Connect Metamask")
-    }
+    } 
+    // else {
+    //   alert("Please Connect Metamask")
+    // }
   }
 
 

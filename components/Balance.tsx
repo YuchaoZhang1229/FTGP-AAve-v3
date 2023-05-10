@@ -316,16 +316,16 @@ const Balance: React.FC<Props> = ({ tokenAddress, decimals }) => {
             } catch (e) {
               console.log(e);
             }
-          } else {
-            alert("Please Connect Metamask")
-          }
+          } 
+        //   else {
+        //     alert("Please Connect Metamask")
+        //   }
     }
 
     useEffect(() => {
         // 在组件挂载时调用一次
         getBalance();
-        const interval = setInterval(getBalance, 1000);
-        return () => clearInterval(interval);
+
       }, [setBalance]);
 
 
