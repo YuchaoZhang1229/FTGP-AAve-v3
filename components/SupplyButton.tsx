@@ -13,7 +13,7 @@ interface Props {
 
 
 const SupplyButton: React.FC<Props> = ({ tokenAddress, tokenAmount, decimals}) =>{
-  const contractAddress = "0xE7EC1B0015eb2ADEedb1B7f9F1Ce82F9DAD6dF08"; // Pool-Proxy-Aave
+  const contractAddress = "0x7b5C526B7F8dfdff278b4a3e045083FBA4028790"; // Pool-Proxy-Aave
   const abi = [
     {
         "inputs": [

@@ -12,8 +12,9 @@ import FlashLoan from '../components/FlashLoan';
 import BalanceTable from '../components/BalanceTable';
 import Deposit from '../components/Deposit';
 
-import ApproveTest from '../components/ApproveTest';
-import Quoter from '../components/Quoter';
+
+import Arbitrage from '../components/Arbitrage';
+import { useState, useEffect } from "react";
 
 
 
@@ -23,10 +24,29 @@ export default function Home() {
   const { address, isConnected } = useAccount()
   const { connect } = useConnect({ connector: new InjectedConnector(), })
   const { disconnect } = useDisconnect()
+  const [ ethValue, setEthValue] = useState('')
+  
+  useEffect(() => {
+    // 在组件挂载时调用一次
+    getEthBalance();
+    const interval = setInterval(getEthBalance, 1000);
+    return () => clearInterval(interval);
+  }, [setEthValue]);
+  
+  // 获得以太坊余额
+  async function getEthBalance(){
+    const provider = new ethers.providers.Web3Provider((window as any).ethereum);
+    const accounts = await provider.listAccounts();
+    const balanceBN = await provider.getBalance(accounts[0]);
+    const balance = ethers.utils.formatEther(balanceBN);
+    // console.log(balance);
+    setEthValue(balance)
+  }
 
   return (
 
     <div className='mx-auto h-auto flex flex-col'>
+      
       {/* Navbar */}
       <nav className="className='border-b border-gray-200 py-3 relative z-20 bg-background shadow-[0_0_15px_0_rgb(0,0,0,0.1)]">
         <div className="className='flex items-center lg:px-6 mx-auto max-w-7xl px-14">
@@ -72,7 +92,6 @@ export default function Home() {
 
       </nav>
       {/* Narvbar */}
-
       <div className='bg-accents-0 bg-gray-200 h-auto'>
         <main className='w-full max-w-3xl mx-auto py-16 px-12 rounded-lg shadow-lg bg-gray-100 h-auto overflow-auto'>
           {/* AAve */}
@@ -90,16 +109,17 @@ export default function Home() {
           {/* Account Profile */}
           <section className="mt-6 flex flex-col gap-5">
             <h1 className=" text-2xl font-bold">Account Profile</h1>
-            <div className="flex flex-row gap-2">
-              <div className="text-base font-bold">MetaMask Address: </div>
-              <div className="text-base font-normal" id="MetamaskAddress">
-                {isConnected ? address : "0x"} 
-              </div>
+            <div className="text-base font-normal break-all" id="MetamaskAddress">
+              <b>MetaMask Address:</b>  {isConnected ? address : "0x"}
             </div>
-            <div className="text-xl font-bold mx-auto mt-2">Asset Balance </div>
+            <div className="text-base font-normal break-all" id="MetamaskAddress">
+              <b>Eth Balance:</b>  {isConnected ? ethValue : 0}
+            </div>
+
+            {/* <div className="text-xl font-bold mx-auto mt-2">Asset Balance </div>
             <div className="mx-auto">
               <BalanceTable />
-            </div>
+            </div> */}
           </section>
           {/* Balance */}
 
@@ -107,17 +127,17 @@ export default function Home() {
           <div className="mt-10 flex flex-col gap-5">
             <h1 className=" text-2xl font-bold ">Deposit Asset to Aave</h1>
             <div className="text-base font-normal">
-               <b>Apporve:</b> approve the amount of token 
+              <b>Apporve:</b> approve the amount of token
             </div>
             <div className="text-base font-normal">
-               <b>Supply:</b>  supply the token to aave, then aave will give us the atoken back
+              <b>Supply:</b>  supply the token to aave, then aave will give us the atoken back
             </div>
             <div className="text-base font-normal">
-               <b>Withdraw:</b> withdraw the token to our metamask
+              <b>Withdraw:</b> withdraw the token to our metamask
             </div>
 
             <div className="bg-white mx-auto rounded-lg shadow-lg">
-              <Deposit/>
+              <Deposit />
             </div>
 
           </div>
@@ -127,8 +147,7 @@ export default function Home() {
           {/* Contract 2-Flash Loan*/}
           <FlashLoan />
           {/* Contract 2 */}
-          <ApproveTest tokenAddress="0x68194a729C2450ad26072b3D33ADaCbcef39D574" tokenAmount={"1"} />
-          <Quoter/>
+          <Arbitrage />
         </main>
 
       </div>
