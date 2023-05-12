@@ -303,7 +303,7 @@ const Balance: React.FC<Props> = ({ tokenAddress, decimals }) => {
     const { address, isConnected } = useAccount()
 
     async function getBalance() {
-        if (isConnected) {
+      
             const provider = new ethers.providers.Web3Provider((window as any).ethereum);
             // await provider.send("eth_requestAccounts", []);
             const signer = provider.getSigner(); // 获得签名者
@@ -316,40 +316,17 @@ const Balance: React.FC<Props> = ({ tokenAddress, decimals }) => {
             } catch (e) {
               console.log(e);
             }
-          } 
-        //   else {
-        //     alert("Please Connect Metamask")
-        //   }
     }
 
-    // useEffect(() => {
-    //     // 在组件挂载时调用一次
-    //     getBalance();
-    //     const interval = setInterval(getBalance, 1000);
-    //     return () => clearInterval(interval);
-    //   }, [setBalance]);
-
-
     useEffect(() => {
-        const fetchBalance = async () => {
-            if(isConnected){
-                try {
-                    const provider = new ethers.providers.Web3Provider((window as any).ethereum);
-                    const signer = provider.getSigner(); // 获得签名者
-                    const contract = new ethers.Contract(contractAddress, abi, signer);
-                    // const accounts = await provider.listAccounts(); // 获取账户列表
-                    const balance = await contract.balanceOf(address);
-                    setBalance(balance);
-                } catch (e) {
-                    console.log(e);
-                }
-            }
-        }
-        fetchBalance();
-        const interval = setInterval(fetchBalance, 1000);
+        // 在组件挂载时调用一次
+        getBalance();
+        const interval = setInterval(getBalance, 1000);
         return () => clearInterval(interval);
+      }, [setBalance]);
 
-    }, []);
+
+
 
 
 
