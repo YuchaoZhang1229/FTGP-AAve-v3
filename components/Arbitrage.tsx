@@ -378,6 +378,7 @@ const Arbitrage: React.FC<Props> = () => {
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setDepositValue(event.target.value);
   };
+
   useEffect(() => {
     // 在组件挂载时调用一次
     getWethBalance();
@@ -386,7 +387,6 @@ const Arbitrage: React.FC<Props> = () => {
   }, [setWethValue]);
 
   async function getWethBalance() {
-    if (isConnected) {
       const provider = new ethers.providers.Web3Provider((window as any).ethereum);
       const signer = provider.getSigner(); 
       const contract = new ethers.Contract(contractAddress, abi, signer);
@@ -399,10 +399,8 @@ const Arbitrage: React.FC<Props> = () => {
       } catch (e) {
         console.log(e);
       }
-    } else {
-      alert("Please Connect Metamask")
-    }
-  }
+  } 
+  
 
   async function depositWeth() {
     if (isConnected) {

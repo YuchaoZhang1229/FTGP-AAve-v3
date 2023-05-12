@@ -678,7 +678,6 @@ const FlashLoan: React.FC<Props> = () => {
   };
 
   async function getTokenBalance() {
-    if (isConnected) {
       const provider = new ethers.providers.Web3Provider((window as any).ethereum);
       // await provider.send("eth_requestAccounts", []);
       const signer = provider.getSigner(); // 获得签名者
@@ -746,11 +745,8 @@ const FlashLoan: React.FC<Props> = () => {
       } catch (e) {
         console.log(e);
       }
-    }
-    // else {
-    //   alert("Please Connect Metamask")
-    // }
   }
+  
 
   async function deposit() {
     if (isConnected) {
