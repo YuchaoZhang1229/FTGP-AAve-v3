@@ -153,7 +153,7 @@ export default function Home() {
       </div>
 
 
-
+            
       <div className="w-full mt-auto border-t border-gray-200 shadow-lg">
         <Footer container={true} >
           <Footer.Copyright
