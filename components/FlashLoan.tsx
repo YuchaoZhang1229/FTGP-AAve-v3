@@ -798,7 +798,7 @@ const FlashLoan: React.FC<Props> = () => {
 
         if (selectedValue == "USDC") {
           const tokenAddress = "0x65aFADD39029741B3b8f0756952C74678c9cEC93"
-          const decimals = 18
+          const decimals = 6
           const amount = value
           console.log('USDC', tokenAddress, decimals, amount);
           
@@ -897,7 +897,7 @@ const FlashLoan: React.FC<Props> = () => {
 
         if (selectedValue == "USDC") {
           const tokenAddress = "0x65aFADD39029741B3b8f0756952C74678c9cEC93"
-          const decimals = 18
+          const decimals = 6
           const amount = value
           console.log('USDC', tokenAddress, decimals, amount);
           const tokenAmount = ethers.utils.parseUnits(amount, decimals);
